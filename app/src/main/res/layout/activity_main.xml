@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:gravity="center"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,18 +9,22 @@
     tools:context="com.minami.project.android.memorizingnumbersapp.MainActivity">
 
     <LinearLayout
-        android:layout_margin="15dp"
         android:weightSum="7"
         android:id="@+id/item_area"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <ImageButton
             android:id="@+id/back_btn"
-            android:layout_weight="1"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="null"
+            app:srcCompat="@drawable/previous" />
         <LinearLayout
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:layout_weight="5"
             android:orientation="vertical"
             android:layout_width="wrap_content"
@@ -27,25 +32,31 @@
             <TextView
                 android:id="@+id/category_tv"
                 android:text="category"
+                android:textSize="20sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <TextView
                 android:id="@+id/item_tv"
                 android:text="item"
+                android:textSize="30sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
+
         <ImageButton
             android:id="@+id/next_btn"
-            android:layout_weight="1"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="null"
+            app:srcCompat="@drawable/next" />
 
     </LinearLayout>
     <TextView
         android:id="@+id/code_tv"
-        android:layout_marginRight="40dp"
-        android:layout_marginLeft="40dp"
+        android:textSize="40sp"
+        android:layout_margin="20dp"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="00000"/>
@@ -55,59 +66,72 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <Button
+            android:text="1"
             android:id="@+id/num1"
-            android:layout_width="60dp"
-            android:layout_height="60dp"/>
+            android:layout_width="70dp"
+            android:layout_height="70dp"/>
         <Button
+            android:text="2"
             android:id="@+id/num2"
-            android:layout_width="60dp"
-            android:layout_height="60dp"/>
+            android:layout_width="70dp"
+            android:layout_height="70dp"/>
         <Button
+            android:text="3"
             android:id="@+id/num3"
-            android:layout_width="60dp"
-            android:layout_height="60dp"/>
+            android:layout_width="70dp"
+            android:layout_height="70dp"/>
         <Button
+            android:text="*"
             android:id="@+id/mul"
-            android:layout_width="60dp"
-            android:layout_height="60dp"/>
+            android:layout_width="70dp"
+            android:layout_height="70dp"/>
         <Button
+            android:text="4"
             android:id="@+id/num4"
-            android:layout_width="60dp"
-            android:layout_height="60dp"/>
+            android:layout_width="70dp"
+            android:layout_height="70dp"/>
         <Button
+            android:text="5"
             android:id="@+id/num5"
-            android:layout_width="60dp"
-            android:layout_height="60dp"/>
+            android:layout_width="70dp"
+            android:layout_height="70dp"/>
         <Button
+            android:text="6"
             android:id="@+id/num6"
-            android:layout_width="60dp"
-            android:layout_height="60dp"/>
+            android:layout_width="70dp"
+            android:layout_height="70dp"/>
         <Button
+            android:text="enter"
             android:id="@+id/enter"
             android:layout_rowSpan="3"
             android:layout_gravity="fill_vertical"
-            android:layout_width="60dp" />
+            android:layout_width="70dp" />
         <Button
+            android:text="7"
             android:id="@+id/num7"
-            android:layout_width="60dp"
-            android:layout_height="60dp"/>
+            android:layout_width="70dp"
+            android:layout_height="70dp"/>
         <Button
+            android:text="8"
             android:id="@+id/num8"
-            android:layout_width="60dp"
-            android:layout_height="60dp"/>
+            android:layout_width="70dp"
+            android:layout_height="70dp"/>
         <Button
+            android:text="9"
             android:id="@+id/num9"
-            android:layout_width="60dp"
-            android:layout_height="60dp"/>
+            android:layout_width="70dp"
+            android:layout_height="70dp"/>
         <Button
+            android:text="0"
             android:id="@+id/num0"
-            android:layout_width="60dp"
-            android:layout_height="60dp"/>
+            android:layout_width="70dp"
+            android:layout_height="70dp"/>
         <Button
+            android:text="del"
             android:id="@+id/del"
             android:layout_columnSpan="2"
             android:layout_gravity="fill_horizontal"
-            android:layout_height="60dp"/>
+            android:layout_height="70dp"/>
     </GridLayout>
 
 
