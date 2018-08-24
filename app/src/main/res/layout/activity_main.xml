@@ -1,18 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.minami.project.android.memorizingnumbersapp.MainActivity">
 
+    <LinearLayout
+        android:layout_margin="15dp"
+        android:weightSum="7"
+        android:id="@+id/item_area"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageButton
+            android:id="@+id/back_btn"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+        <LinearLayout
+            android:layout_weight="5"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/category_tv"
+                android:text="category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/item_tv"
+                android:text="item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <ImageButton
+            android:id="@+id/next_btn"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
     <TextView
+        android:id="@+id/code_tv"
+        android:layout_marginRight="40dp"
+        android:layout_marginLeft="40dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="00000"/>
+    <GridLayout
+        android:columnCount="4"
+        android:rowCount="4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/num1"
+            android:layout_width="60dp"
+            android:layout_height="60dp"/>
+        <Button
+            android:id="@+id/num2"
+            android:layout_width="60dp"
+            android:layout_height="60dp"/>
+        <Button
+            android:id="@+id/num3"
+            android:layout_width="60dp"
+            android:layout_height="60dp"/>
+        <Button
+            android:id="@+id/mul"
+            android:layout_width="60dp"
+            android:layout_height="60dp"/>
+        <Button
+            android:id="@+id/num4"
+            android:layout_width="60dp"
+            android:layout_height="60dp"/>
+        <Button
+            android:id="@+id/num5"
+            android:layout_width="60dp"
+            android:layout_height="60dp"/>
+        <Button
+            android:id="@+id/num6"
+            android:layout_width="60dp"
+            android:layout_height="60dp"/>
+        <Button
+            android:id="@+id/enter"
+            android:layout_rowSpan="3"
+            android:layout_gravity="fill_vertical"
+            android:layout_width="60dp" />
+        <Button
+            android:id="@+id/num7"
+            android:layout_width="60dp"
+            android:layout_height="60dp"/>
+        <Button
+            android:id="@+id/num8"
+            android:layout_width="60dp"
+            android:layout_height="60dp"/>
+        <Button
+            android:id="@+id/num9"
+            android:layout_width="60dp"
+            android:layout_height="60dp"/>
+        <Button
+            android:id="@+id/num0"
+            android:layout_width="60dp"
+            android:layout_height="60dp"/>
+        <Button
+            android:id="@+id/del"
+            android:layout_columnSpan="2"
+            android:layout_gravity="fill_horizontal"
+            android:layout_height="60dp"/>
+    </GridLayout>
 
-</android.support.constraint.ConstraintLayout>
+
+</LinearLayout>
