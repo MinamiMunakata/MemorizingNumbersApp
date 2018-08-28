@@ -16,11 +16,11 @@
         android:layout_height="wrap_content">
 
         <ImageButton
+            android:background="@null"
             android:id="@+id/back_btn"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="null"
             app:srcCompat="@drawable/previous" />
         <LinearLayout
             android:paddingLeft="10dp"
@@ -44,11 +44,11 @@
         </LinearLayout>
 
         <ImageButton
+            android:background="@null"
             android:id="@+id/next_btn"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="null"
             app:srcCompat="@drawable/next" />
 
     </LinearLayout>
