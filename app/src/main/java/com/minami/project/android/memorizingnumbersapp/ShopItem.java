@@ -5,4 +5,9 @@ package com.minami.project.android.memorizingnumbersapp;
  */
 
 public class ShopItem {
+    private String category;
+    private String item;
+    private Boolean org;
+    private String code;
+    
 }
