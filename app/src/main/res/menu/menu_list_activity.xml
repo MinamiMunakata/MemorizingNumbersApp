@@ -3,8 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/list_icon"
-        android:icon="@drawable/list"
+        android:id="@+id/calc_icon"
+        android:icon="@drawable/calculator"
         android:title="Item"
         app:showAsAction="always" />
 </menu>
