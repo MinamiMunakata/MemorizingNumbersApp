@@ -1,5 +1,6 @@
 package com.minami.project.android.memorizingnumbersapp;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,10 +26,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.swich_activity:
-                Log.i("MENU", "onOptionsItemSelected: ---");
+            case R.id.list_icon:
                 // User chose the "Settings" item, show the app settings UI...
-                item.setIcon(R.drawable.list);
+                Intent intent = new Intent(this, ListActivity.class);
+                startActivity(intent);
                 return true;
 
             default:

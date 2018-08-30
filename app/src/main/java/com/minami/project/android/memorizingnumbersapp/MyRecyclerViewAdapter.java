@@ -9,61 +9,45 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import static android.support.v7.widget.RecyclerView.*;
-
 /**
  * Created by Minami on 2018/08/24.
  */
 
-public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewHolder> {
     private LayoutInflater mInflater;
-    private ArrayList<ShopItem> mItem;
+    private ArrayList<ShopItem> shopItems;
     private Context context;
     private OnRecyclerListner mListener;
 
-    public MyRecyclerViewAdapter(ArrayList<ShopItem> mItems, Context context, OnRecyclerListner listener) {
-        this.mItem = mItems;
-        this.context = context;
-        this.mListener = listener;
+    public MyRecyclerViewAdapter(ArrayList<ShopItem> shopItems) {
+        this.shopItems = shopItems;
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        return new ViewHolder(mInflater.inflate(R.layout.list_view_holder, viewGroup, false));
+    public MyRecyclerViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+        View view = LayoutInflater
+                .from(viewGroup.getContext())
+                .inflate(R.layout.list_view_holder, viewGroup, false);
+        return new MyRecyclerViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
-
-
+    public void onBindViewHolder(MyRecyclerViewHolder holder, int position) {
+        if (holder != null){
+            holder.getCategory_holder().setText(shopItems.get(position).getCategory());
+            holder.getItem_holder().setText(shopItems.get(position).getItem());
+            holder.getOrg_holder().setText(shopItems.get(position).getOrg());
+            holder.getCode_holder().setText(shopItems.get(position).getCode());
+        }
     }
-
-
-
 
     @Override
     public int getItemCount() {
-        if (mItem != null) {
-            return mItem.size();
+        if (shopItems != null) {
+            return shopItems.size();
         } else {
             return 0;
         }
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
-        TextView category_holder;
-        TextView item_holder;
-        TextView org_holder;
-        TextView code_holder;
-
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-            category_holder = itemView.findViewById(R.id.category_holder);
-            item_holder = itemView.findViewById(R.id.item_holder);
-            org_holder = itemView.findViewById(R.id.org_holder);
-            code_holder = itemView.findViewById(R.id.code_holder);
-        }
-    }
 }

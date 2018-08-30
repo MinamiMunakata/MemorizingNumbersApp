@@ -16,11 +16,28 @@ public class MyRecyclerViewHolder extends RecyclerView.ViewHolder {
     private TextView item_holder;
     private TextView org_holder;
     private TextView code_holder;
+
     public MyRecyclerViewHolder(View itemView) {
         super(itemView);
         category_holder = itemView.findViewById(R.id.category_holder);
         item_holder = itemView.findViewById(R.id.item_holder);
         org_holder = itemView.findViewById(R.id.org_holder);
         code_holder = itemView.findViewById(R.id.code_holder);
+    }
+
+    public TextView getCategory_holder() {
+        return category_holder;
+    }
+
+    public TextView getItem_holder() {
+        return item_holder;
+    }
+
+    public TextView getOrg_holder() {
+        return org_holder;
+    }
+
+    public TextView getCode_holder() {
+        return code_holder;
     }
 }
