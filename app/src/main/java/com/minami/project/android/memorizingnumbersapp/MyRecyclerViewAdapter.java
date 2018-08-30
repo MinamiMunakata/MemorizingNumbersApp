@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -17,7 +16,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewHo
     private LayoutInflater mInflater;
     private ArrayList<ShopItem> shopItems;
     private Context context;
-    private OnRecyclerListner mListener;
 
     public MyRecyclerViewAdapter(ArrayList<ShopItem> shopItems) {
         this.shopItems = shopItems;
