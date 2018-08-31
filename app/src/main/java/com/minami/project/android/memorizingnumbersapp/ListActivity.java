@@ -94,6 +94,7 @@ public class ListActivity extends AppCompatActivity {
                 else item.setOrg("");
                 item.setCode(input_code.getText().toString());
                 shopItems.add(item);
+                addData(item);
                 adapter.notifyDataSetChanged();
                 dialog.dismiss();
             }
@@ -101,9 +102,18 @@ public class ListActivity extends AppCompatActivity {
 
     }
 
+    private void addData(ShopItem item){
+        database = openOrCreateDatabase(FILE, MODE_PRIVATE, null);
+        String query = "INSERT INTO item_list ('category', 'item', 'organic', 'code') " +
+                "VALUES('" + item.getCategory() + "', '" + item.getItem() + "', '" + item.getOrg() + "', '" + item.getCode() + "')";
+        database.execSQL(query);
+        database.close();
+
+    }
+
     private void readDataBase(){
         database = openOrCreateDatabase(FILE, MODE_PRIVATE, null);
-        String sql = "CREATE TABLE IF NOT EXISTS item_list(category TEXT, item TEXT, organic TEXT, code TEXT PRIMARYKEY)";
+        String sql = "CREATE TABLE IF NOT EXISTS item_list(category TEXT, item TEXT, organic TEXT, code TEXT PRIMARY KEY)";
         database.execSQL(sql);
         Cursor query = database.rawQuery(
                 "SELECT * FROM item_list",
