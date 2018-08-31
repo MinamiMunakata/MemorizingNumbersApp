@@ -1,6 +1,7 @@
 package com.minami.project.android.memorizingnumbersapp;
 
 import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,17 +12,23 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 
 import java.util.ArrayList;
 
 public class ListActivity extends AppCompatActivity {
+    private ArrayList<ShopItem> shopItems = new ArrayList<>();
+    private MyRecyclerViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+
         RecyclerView recyclerView = findViewById(R.id.recycler_view_list);
-        MyRecyclerViewAdapter adapter = new MyRecyclerViewAdapter(this.createDataSet());
+        adapter = new MyRecyclerViewAdapter(shopItems);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         recyclerView.setHasFixedSize(true);
         recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext()));
@@ -29,18 +36,10 @@ public class ListActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
-    private ArrayList<ShopItem> createDataSet() {
-        ArrayList<ShopItem> shopItems = new ArrayList<>();
-        for (int i = 0; i < 20; i++){
-            ShopItem item = new ShopItem();
-            item.setCategory("Apple");
-            item.setItem("GALA" + i);
-            if (i % 2 == 0) item.setOrg("ORG");
-            else item.setOrg("");
-            item.setCode("12345" + i);
-            shopItems.add(item);
-        }
-        return shopItems;
+    @Override
+    protected void onStart() {
+        super.onStart();
+
     }
 
     @Override
@@ -70,7 +69,30 @@ public class ListActivity extends AppCompatActivity {
     public void addCode(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
-        builder.setView(inflater.inflate(R.layout.add_code_dialog, null));
+        View dialogView = inflater.inflate(R.layout.add_code_dialog, null);
+        builder.setView(dialogView);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+        Button add_btn = dialogView.findViewById(R.id.add_button);
+        final EditText input_category = dialogView.findViewById(R.id.input_category);
+        final EditText input_item = dialogView.findViewById(R.id.input_item);
+        final CheckBox input_org = dialogView.findViewById(R.id.checkBox);
+        final EditText input_code = dialogView.findViewById(R.id.input_code);
+        add_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ArrayList<ShopItem> shopItems = new ArrayList<>();
+                ShopItem item = new ShopItem();
+                item.setCategory(input_category.getText().toString());
+                item.setItem(input_item.getText().toString());
+                if (input_org.isChecked()) item.setOrg("ORG");
+                else item.setOrg("");
+                item.setCode(input_code.getText().toString());
+                shopItems.add(item);
+                adapter.notifyDataSetChanged();
+            }
+        });
 
     }
 }
