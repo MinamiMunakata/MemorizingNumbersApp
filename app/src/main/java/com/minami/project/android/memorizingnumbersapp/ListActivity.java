@@ -1,6 +1,8 @@
 package com.minami.project.android.memorizingnumbersapp;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +23,8 @@ import java.util.ArrayList;
 public class ListActivity extends AppCompatActivity {
     private ArrayList<ShopItem> shopItems = new ArrayList<>();
     private MyRecyclerViewAdapter adapter;
+    private SQLiteDatabase database;
+    private final String FILE = "shop_item.db";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +43,7 @@ public class ListActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        readDataBase();
 
     }
 
@@ -71,7 +76,7 @@ public class ListActivity extends AppCompatActivity {
         LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.add_code_dialog, null);
         builder.setView(dialogView);
-        AlertDialog dialog = builder.create();
+        final AlertDialog dialog = builder.create();
         dialog.show();
 
         Button add_btn = dialogView.findViewById(R.id.add_button);
@@ -82,7 +87,6 @@ public class ListActivity extends AppCompatActivity {
         add_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ArrayList<ShopItem> shopItems = new ArrayList<>();
                 ShopItem item = new ShopItem();
                 item.setCategory(input_category.getText().toString());
                 item.setItem(input_item.getText().toString());
@@ -91,8 +95,31 @@ public class ListActivity extends AppCompatActivity {
                 item.setCode(input_code.getText().toString());
                 shopItems.add(item);
                 adapter.notifyDataSetChanged();
+                dialog.dismiss();
             }
         });
 
+    }
+
+    private void readDataBase(){
+        database = openOrCreateDatabase(FILE, MODE_PRIVATE, null);
+        String sql = "CREATE TABLE IF NOT EXISTS item_list(category TEXT, item TEXT, organic TEXT, code TEXT PRIMARYKEY)";
+        database.execSQL(sql);
+        Cursor query = database.rawQuery(
+                "SELECT * FROM item_list",
+                null
+        );
+        if (query.moveToFirst()){
+            do {
+                ShopItem shopItem = new ShopItem();
+                shopItem.setCategory(query.getString(query.getColumnIndex("category")));
+                shopItem.setItem(query.getString(query.getColumnIndex("item")));
+                shopItem.setOrg(query.getString(query.getColumnIndex("organic")));
+                shopItem.setCode(query.getString(query.getColumnIndex("code")));
+                shopItems.add(shopItem);
+            } while (query.moveToNext());
+            query.close();
+            database.close();
+        }
     }
 }
