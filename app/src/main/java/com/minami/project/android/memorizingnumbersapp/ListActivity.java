@@ -108,12 +108,21 @@ public class ListActivity extends AppCompatActivity {
                 "VALUES('" + item.getCategory() + "', '" + item.getItem() + "', '" + item.getOrg() + "', '" + item.getCode() + "')";
         database.execSQL(query);
         database.close();
+    }
 
+    private void addCount(ShopItem item){
+        item.setTrial_count(item.getTrial_count() + 1);
+        database = openOrCreateDatabase(FILE, MODE_PRIVATE, null);
+        String query = "UPDATE item_list SET trial_count = " + item.getTrial_count() + 1 + " WHERE code = " + item.getCode();
+        database.execSQL(query);
+        database.close();
     }
 
     private void readDataBase(){
         database = openOrCreateDatabase(FILE, MODE_PRIVATE, null);
-        String sql = "CREATE TABLE IF NOT EXISTS item_list(category TEXT, item TEXT, organic TEXT, code TEXT PRIMARY KEY)";
+        String sql = "CREATE TABLE IF NOT EXISTS item_list" +
+                "(category TEXT, item TEXT, organic TEXT, code TEXT PRIMARY KEY, " +
+                "trial_count INTEGER DEFAULT (0), score INTEGER DEFAULT (0))";
         database.execSQL(sql);
         Cursor query = database.rawQuery(
                 "SELECT * FROM item_list",
@@ -126,6 +135,8 @@ public class ListActivity extends AppCompatActivity {
                 shopItem.setItem(query.getString(query.getColumnIndex("item")));
                 shopItem.setOrg(query.getString(query.getColumnIndex("organic")));
                 shopItem.setCode(query.getString(query.getColumnIndex("code")));
+                shopItem.setTrial_count(query.getInt(query.getColumnIndex("trial_code")));
+                shopItem.setScore(query.getInt(query.getColumnIndex("score")));
                 shopItems.add(shopItem);
             } while (query.moveToNext());
             query.close();
