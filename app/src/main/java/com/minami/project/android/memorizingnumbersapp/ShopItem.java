@@ -9,6 +9,8 @@ public class ShopItem {
     private String item;
     private String org;
     private String code;
+    private int trial_count;
+    private int score;
 
     public String getCategory() {
         return category;
@@ -40,5 +42,21 @@ public class ShopItem {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public int getTrial_count() {
+        return trial_count;
+    }
+
+    public void setTrial_count(int trial_count) {
+        this.trial_count = trial_count;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 }

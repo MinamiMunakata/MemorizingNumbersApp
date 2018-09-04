@@ -24,7 +24,7 @@ public class ListActivity extends AppCompatActivity {
     private ArrayList<ShopItem> shopItems = new ArrayList<>();
     private MyRecyclerViewAdapter adapter;
     private SQLiteDatabase database;
-    private final String FILE = "shop_item.db";
+    public static final String FILE = "shop_item.db";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +43,8 @@ public class ListActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        readDataBase();
+        database = openOrCreateDatabase(FILE, MODE_PRIVATE, null);
+        readDataBase(database, shopItems);
 
     }
 
@@ -110,16 +111,7 @@ public class ListActivity extends AppCompatActivity {
         database.close();
     }
 
-    private void addCount(ShopItem item){
-        item.setTrial_count(item.getTrial_count() + 1);
-        database = openOrCreateDatabase(FILE, MODE_PRIVATE, null);
-        String query = "UPDATE item_list SET trial_count = " + item.getTrial_count() + 1 + " WHERE code = " + item.getCode();
-        database.execSQL(query);
-        database.close();
-    }
-
-    private void readDataBase(){
-        database = openOrCreateDatabase(FILE, MODE_PRIVATE, null);
+    public static void readDataBase(SQLiteDatabase database, ArrayList<ShopItem> shopItems){
         String sql = "CREATE TABLE IF NOT EXISTS item_list" +
                 "(category TEXT, item TEXT, organic TEXT, code TEXT PRIMARY KEY, " +
                 "trial_count INTEGER DEFAULT (0), score INTEGER DEFAULT (0))";
@@ -135,7 +127,7 @@ public class ListActivity extends AppCompatActivity {
                 shopItem.setItem(query.getString(query.getColumnIndex("item")));
                 shopItem.setOrg(query.getString(query.getColumnIndex("organic")));
                 shopItem.setCode(query.getString(query.getColumnIndex("code")));
-                shopItem.setTrial_count(query.getInt(query.getColumnIndex("trial_code")));
+                shopItem.setTrial_count(query.getInt(query.getColumnIndex("trial_count")));
                 shopItem.setScore(query.getInt(query.getColumnIndex("score")));
                 shopItems.add(shopItem);
             } while (query.moveToNext());
