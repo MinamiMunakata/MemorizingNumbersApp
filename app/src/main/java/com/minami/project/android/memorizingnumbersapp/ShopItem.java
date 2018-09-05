@@ -59,4 +59,23 @@ public class ShopItem {
     public void setScore(int score) {
         this.score = score;
     }
+
+    @Override
+    public String toString() {
+        return item;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this.getClass() != obj.getClass()){
+            return false;
+        }
+        if (this == obj){
+            return true;
+        }
+        if (this.code == ((ShopItem)obj).code){
+            return true;
+        }
+        return false;
+    }
 }
