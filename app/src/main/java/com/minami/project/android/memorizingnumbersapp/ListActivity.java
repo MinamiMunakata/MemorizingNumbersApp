@@ -3,12 +3,16 @@ package com.minami.project.android.memorizingnumbersapp;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Canvas;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -19,13 +23,18 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
+import com.daimajia.swipe.SwipeLayout;
+
 import java.util.ArrayList;
+
+import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
 public class ListActivity extends AppCompatActivity {
     private ArrayList<ShopItem> shopItems = new ArrayList<>();
     private MyRecyclerViewAdapter adapter;
     private SQLiteDatabase database;
     public static final String FILE = "shop_item.db";
+    private ItemTouchHelper.SimpleCallback callback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,12 +48,49 @@ public class ListActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext()));
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
+
+        callback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                // Take action for the swiped item
+                try {
+                    int position = viewHolder.getAdapterPosition();
+                    ShopItem item = shopItems.get(position);
+                    shopItems.remove(position);
+                    deleteData(item);
+                    adapter.notifyDataSetChanged();
+                } catch (Exception e){
+                    Log.e("ListActivity", "onSwiped: " + e.getMessage());
+                }
+            }
+
+            @Override
+            public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                new RecyclerViewSwipeDecorator.Builder(ListActivity.this, c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                        .addBackgroundColor(ContextCompat.getColor(ListActivity.this, R.color.red))
+                        .addActionIcon(android.R.drawable.ic_menu_delete)
+                        .create()
+                        .decorate();
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+            }
+        };
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         database = openOrCreateDatabase(FILE, MODE_PRIVATE, null);
+        // TODO delete
+        //resetCount();
         readDataBase(database, shopItems);
 
     }
@@ -89,6 +135,10 @@ public class ListActivity extends AppCompatActivity {
         add_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (TextUtils.isEmpty(input_code.getText())){
+                    MainActivity.toast(view.getContext(), "Enter the item code.");
+                    dialog.dismiss();
+                }
                 ShopItem item = new ShopItem();
                 item.setCategory(input_category.getText().toString());
                 item.setItem(input_item.getText().toString());
@@ -112,6 +162,21 @@ public class ListActivity extends AppCompatActivity {
         database.close();
     }
 
+    private void deleteData(ShopItem item){
+        database = openOrCreateDatabase(FILE, MODE_PRIVATE, null);
+        String query = "DELETE FROM item_list WHERE trial_count = " + item.getTrial_count();
+        database.execSQL(query);
+        database.close();
+    }
+
+    // TODO delete
+    private void resetCount(){
+        database = openOrCreateDatabase(FILE, MODE_PRIVATE, null);
+        String query = "UPDATE item_list set score = 0, trial_count = 0";
+        database.execSQL(query);
+        database.close();
+    }
+
     public static void readDataBase(SQLiteDatabase database, ArrayList<ShopItem> shopItems){
         String sql = "CREATE TABLE IF NOT EXISTS item_list" +
                 "(category TEXT, item TEXT, organic TEXT, code TEXT PRIMARY KEY, " +
@@ -131,6 +196,9 @@ public class ListActivity extends AppCompatActivity {
                 shopItem.setTrial_count(query.getInt(query.getColumnIndex("trial_count")));
                 shopItem.setScore(query.getInt(query.getColumnIndex("score")));
                 shopItems.add(shopItem);
+                // TODO delete
+                Log.i("Count", "readDataBase: " + shopItem.getTrial_count());
+                Log.i("score", "readDataBase: " + shopItem.getScore());
             } while (query.moveToNext());
             query.close();
             database.close();

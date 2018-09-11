@@ -1,5 +1,6 @@
 package com.minami.project.android.memorizingnumbersapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
@@ -65,22 +66,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void addCount(ShopItem item){
-        item.setTrial_count(item.getTrial_count() + 1);
+        int count = item.getTrial_count() + 1;
+        item.setTrial_count(count);
         database = openOrCreateDatabase(FILE, MODE_PRIVATE, null);
-        String query = "UPDATE item_list SET trial_count = " + item.getTrial_count() + 1 + " WHERE code = " + item.getCode();
+        String query = "UPDATE item_list SET trial_count = " + count + " WHERE code = " + item.getCode();
         database.execSQL(query);
         database.close();
     }
 
     private void addScore(ShopItem item){
         int new_score = item.getScore() + 1;
-        toast(String.valueOf(new_score));
+        toast(this.getApplicationContext(), String.valueOf(new_score));
         item.setScore(new_score);
         database = openOrCreateDatabase(FILE, MODE_PRIVATE, null);
         String query = "UPDATE item_list SET score = " + new_score + " WHERE code = " + item.getCode();
         database.execSQL(query);
         database.close();
-        toast(String.valueOf(item.getScore()));
+        toast(this.getApplicationContext(), String.valueOf(item.getScore()));
     }
 
     private void questionGenerator(){
@@ -103,19 +105,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             item_tv.setText(item.getItem());
             submit_btn.setText("submit");
             if (shopItems.size() > 0) {
-                submit(random_index, item);
+                submit(this.getApplication(),random_index, item);
             }
         }
     }
 
-    private void submit(final int index, final ShopItem item) {
+    private void submit(final Context c,final int index, final ShopItem item) {
         submit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (answer.getText().toString().equals(item.getCode())){
                     image_ox.setImageResource(R.drawable.correct);
                     image_ox.setVisibility(View.VISIBLE);
-                    toast("Good!!");
+                    toast(c,"Good!!");
                     addScore(item);
                     if (shopItems.size() > 0){
                         submit_btn.setText("next");
@@ -133,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 } else {
                     image_ox.setImageResource(R.drawable.wrong);
                     image_ox.setVisibility(View.VISIBLE);
-                    toast("Try again...");
+                    toast(c,"Try again...");
                 }
             }
         });
@@ -163,8 +165,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void toast(String s){
-        Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
+    public static void toast(Context c, String s){
+        Toast.makeText(c, s, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -193,9 +195,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             org_tv.setText(item.getOrg());
             item_tv.setText(item.getItem());
             submit_btn.setText("submit");
+            // TODO delete
+            Log.i("size-----------", "onClick: " + (shopItems.size() - 1));
+            Log.i("code-----------", "onClick: " + item.getCode());
+            Log.i("index-----------", "onClick: " + index);
+            Log.i("Count", "readDataBase: " + item.getTrial_count());
+            Log.i("score", "readDataBase: " + item.getScore());
+
             addCount(item);
             final int finalIndex = index;
-            submit(finalIndex, item);
+            submit(this.getApplicationContext(),finalIndex, item);
         }
 
     }

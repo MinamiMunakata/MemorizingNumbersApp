@@ -13,9 +13,7 @@ import java.util.ArrayList;
  */
 
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewHolder> {
-    private LayoutInflater mInflater;
     private ArrayList<ShopItem> shopItems;
-    private Context context;
 
     public MyRecyclerViewAdapter(ArrayList<ShopItem> shopItems) {
         this.shopItems = shopItems;
