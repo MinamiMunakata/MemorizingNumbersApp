@@ -89,8 +89,6 @@ public class ListActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         database = openOrCreateDatabase(FILE, MODE_PRIVATE, null);
-        // TODO delete
-        //resetCount();
         readDataBase(database, shopItems);
 
     }
@@ -169,14 +167,6 @@ public class ListActivity extends AppCompatActivity {
         database.close();
     }
 
-    // TODO delete
-    private void resetCount(){
-        database = openOrCreateDatabase(FILE, MODE_PRIVATE, null);
-        String query = "UPDATE item_list set score = 0, trial_count = 0";
-        database.execSQL(query);
-        database.close();
-    }
-
     public static void readDataBase(SQLiteDatabase database, ArrayList<ShopItem> shopItems){
         String sql = "CREATE TABLE IF NOT EXISTS item_list" +
                 "(category TEXT, item TEXT, organic TEXT, code TEXT PRIMARY KEY, " +
@@ -196,9 +186,7 @@ public class ListActivity extends AppCompatActivity {
                 shopItem.setTrial_count(query.getInt(query.getColumnIndex("trial_count")));
                 shopItem.setScore(query.getInt(query.getColumnIndex("score")));
                 shopItems.add(shopItem);
-                // TODO delete
-                Log.i("Count", "readDataBase: " + shopItem.getTrial_count());
-                Log.i("score", "readDataBase: " + shopItem.getScore());
+
             } while (query.moveToNext());
             query.close();
             database.close();

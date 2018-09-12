@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -195,12 +194,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             org_tv.setText(item.getOrg());
             item_tv.setText(item.getItem());
             submit_btn.setText("submit");
-            // TODO delete
-            Log.i("size-----------", "onClick: " + (shopItems.size() - 1));
-            Log.i("code-----------", "onClick: " + item.getCode());
-            Log.i("index-----------", "onClick: " + index);
-            Log.i("Count", "readDataBase: " + item.getTrial_count());
-            Log.i("score", "readDataBase: " + item.getScore());
 
             addCount(item);
             final int finalIndex = index;
