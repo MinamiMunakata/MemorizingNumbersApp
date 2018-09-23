@@ -75,13 +75,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void addScore(ShopItem item){
         int new_score = item.getScore() + 1;
-        toast(this.getApplicationContext(), String.valueOf(new_score));
         item.setScore(new_score);
         database = openOrCreateDatabase(FILE, MODE_PRIVATE, null);
         String query = "UPDATE item_list SET score = " + new_score + " WHERE code = " + item.getCode();
         database.execSQL(query);
         database.close();
-        toast(this.getApplicationContext(), String.valueOf(item.getScore()));
     }
 
     private void questionGenerator(){
@@ -171,6 +169,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         answer.setText("");
+        image_ox.setVisibility(View.INVISIBLE);
+
         int index = 0;
         if (shopItems.size() > 1) {
             if (view.getId() == R.id.previous_btn) {
