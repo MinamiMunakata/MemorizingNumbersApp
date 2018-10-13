@@ -1,5 +1,5 @@
 # MemorizingNumbersApp
-![app gif](https://github.com/Minamiciccc/MemorizingNumbersApp/blob/media/memonum.gif)
+![app gif](../media/memonum.gif)
 
 ## Overview
 This app helps you memorize complex numbers.</br>
